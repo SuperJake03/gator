@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"log"
 	"time"
 
 	"github.com/SuperJake03/gator/internal/database"
@@ -52,7 +51,7 @@ func handlerRegister(s *state, cmd command) error {
 	}
 
 	fmt.Println("User was created!")
-	log.Printf("User created: %v+", user)
+	fmt.Printf("User created: %v+\n", user)
 	return nil
 }
 
