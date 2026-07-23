@@ -22,14 +22,9 @@ func handlerAgg(s *state, cmd command) error {
 	return nil
 }
 
-func handlerAddFeed(s *state, cmd command) error {
+func handlerAddFeed(s *state, cmd command, user database.User) error {
 	if len(cmd.Args) != 2 {
 		return fmt.Errorf("usage: %s <name> <url>", cmd.Name)
-	}
-
-	user, err := s.db.GetUser(context.Background(), s.cfg.CurrentUserName)
-	if err != nil {
-		return fmt.Errorf("couldn't find user: %w", err)
 	}
 
 	feedName := cmd.Args[0]
@@ -61,7 +56,7 @@ func handlerAddFeed(s *state, cmd command) error {
 
 	feedFollow, err := s.db.CreateFeedFollow(context.Background(), paramsFeedFollow)
 	if err != nil {
-		return fmt.Errorf("%s couldn't follow %s: %w", s.cfg.CurrentUserName, feedUrl, err)
+		return fmt.Errorf("%s couldn't follow %s: %w", user.Name, feedUrl, err)
 	}
 
 	fmt.Printf("%s successfully followed %s\n", feedFollow.UserName, feedFollow.FeedName)
